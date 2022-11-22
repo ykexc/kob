@@ -32,6 +32,10 @@ public class RegisterServiceImpl extends ServiceImpl<UserMapper, User> implement
             map.put("error_message", "密码不能为空");
             return map;
         }
+        if (confirmedPassword == null) {
+            map.put("error_message", "请确认密码");
+            return map;
+        }
         username = username.trim();
         if (username.length() == 0) {
             map.put("error_message", "用户名不能为空");
