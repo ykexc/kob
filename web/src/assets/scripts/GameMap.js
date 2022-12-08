@@ -20,7 +20,6 @@ export class GameMap extends AcGameObject {
             new Snake({id: 0, color: "#4876EC", r: this.rows - 2, c: 1}, this),
             new Snake({id: 1, color: "#F94848", r: 1, c: this.cols - 2}, this),
         ];
-
     }
 
     // 参数 ，图 ，起点的x,y 重点的x, y

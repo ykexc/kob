@@ -1,4 +1,4 @@
-package com.kob.backend.config.filter;
+package com.kob.backend.filter;
 
 
 import com.kob.backend.mapper.UserMapper;

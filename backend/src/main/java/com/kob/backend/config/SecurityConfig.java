@@ -1,6 +1,6 @@
 package com.kob.backend.config;
 
-import com.kob.backend.config.filter.JwtAuthenticationTokenFilter;
+import com.kob.backend.filter.JwtAuthenticationTokenFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
