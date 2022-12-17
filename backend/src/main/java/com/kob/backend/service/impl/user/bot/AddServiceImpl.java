@@ -34,7 +34,7 @@ public class AddServiceImpl implements AddService {
         String description = data.get(("description"));
         String content = data.get("content");
         Map<String, String> map = new HashMap<>();
-        if (!StringUtils.hasText(title)) {
+        if (!StringUtils.hasText(title) || "".equals(title)) {
             map.put(StaticNamePool.ER_MSG, "标题不能为空");
         }
         if (title.length() > 100) {
