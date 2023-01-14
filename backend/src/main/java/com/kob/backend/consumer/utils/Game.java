@@ -1,19 +1,49 @@
 package com.kob.backend.consumer.utils;
 
-import java.util.Random;
+import com.alibaba.fastjson.JSONObject;
+import com.kob.backend.consumer.WebSocketServer;
+import com.kob.backend.pojo.Record;
 
-public class Game {
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Random;
+import java.util.concurrent.locks.ReentrantLock;
+
+public class Game extends Thread {
     private final Integer rows;
     private final Integer cols;
     private final Integer inner_walls_count;
     private final int[][] g;
     private static final int[] dx = {-1, 0, 1, 0}, dy = {0, 1, 0, -1};
+    private final Player playerA;
+    private final Player playerB;
 
-    public Game(Integer rows, Integer cols, Integer inner_walls_count) {
+    private Integer nextStepA = null;
+
+    private Integer nextStepB = null;
+
+    private String status = "playing";
+
+    private String loser = "";
+
+    private final ReentrantLock lock = new ReentrantLock();
+
+    public Player getPlayerA() {
+        return playerA;
+    }
+
+    public Player getPlayerB() {
+        return playerB;
+    }
+
+    public Game(Integer rows, Integer cols, Integer inner_walls_count, Integer idA, Integer idB) {
         this.rows = rows;
         this.cols = cols;
         this.inner_walls_count = inner_walls_count;
         this.g = new int[rows][cols];
+        playerA = new Player(idA, rows - 2, 1, new ArrayList<>());
+        playerB = new Player(idB, 1, cols - 2, new ArrayList<>());
     }
 
     public int[][] getG() {
@@ -76,5 +106,168 @@ public class Game {
             if (draw())
                 break;
         }
+    }
+
+    @Override
+    public void run() {
+        for (int i = 0; i < 1000; i++) {
+            if (nextStep()) {
+                judge();
+                if (status.equals("playing")) {
+                    sendMove();
+                } else {
+                    sendResult();
+                    break;
+                }
+            } else {
+                status = "finished";
+                lock.lock();
+                try {
+                    if (nextStepA == null && nextStepB == null) {
+                        loser = "all";
+                    } else if (nextStepA == null) {
+                        loser = "A";
+                    } else if (nextStepB == null) {
+                        loser = "B";
+                    }
+                } finally {
+                    lock.unlock();
+                }
+                sendResult();
+                break;
+            }
+        }
+    }
+
+    private void sendMove() {
+        lock.lock();
+        try {
+            JSONObject resp = new JSONObject();
+            resp.put("event", "move");
+            resp.put("a_direction", nextStepA);
+            resp.put("b_direction", nextStepB);
+            System.out.println("nextStepA = " + nextStepA);
+            System.out.println("nextStepB = " + nextStepB);
+            sendAllMessage(resp.toJSONString());
+            nextStepA = nextStepB = null;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    private boolean checkIsValid(List<Cell> cellsA, List<Cell> cellsB) {
+        int n = cellsA.size();
+        Cell A = cellsA.get(n - 1);
+        if (g[A.x][A.y] == 1) return false;
+        for (int i = 0; i < n - 1; i++) {
+            if (cellsA.get(i).x == A.x && cellsA.get(i).y == A.y) return false;
+        }
+        for (int i = 0; i < n - 1; i++) {
+            if (cellsB.get(i).x == A.x && cellsB.get(i).y == A.y) return false;
+        }
+        return true;
+    }
+
+    private void judge() {
+        List<Cell> cellsA = playerA.getCells();
+        List<Cell> cellsB = playerB.getCells();
+        boolean validA = checkIsValid(cellsA, cellsB);
+        boolean validB = checkIsValid(cellsB, cellsA);
+        if (!validA || !validB) {
+            status = "finished";
+            if (!validA && !validB) {
+                loser = "all";
+            } else if (!validA) {
+                loser = "A";
+            } else {
+                loser = "B";
+            }
+        }
+    }
+
+    public void sendResult() {
+        JSONObject resp = new JSONObject();
+        resp.put("event", "result");
+        resp.put("loser", loser);
+        saveToDataBase();
+        sendAllMessage(resp.toJSONString());
+    }
+
+    public void sendAllMessage(String message) {
+        WebSocketServer.users.get(playerA.getId()).sendMessage(message);
+        WebSocketServer.users.get(playerB.getId()).sendMessage(message);
+    }
+
+
+    public void setNextStepA(Integer nextStepA) {
+        lock.lock();
+        try {
+            this.nextStepA = nextStepA;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    public void setNextStepB(Integer nextStepB) {
+        lock.lock();
+        try {
+            this.nextStepB = nextStepB;
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    private boolean nextStep() {
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        for (int i = 0; i < 50; i++) {
+            try {
+                Thread.sleep(100);
+                lock.lock();
+                try {
+                    if (nextStepA != null && nextStepB != null) {
+                        playerA.getSteps().add(nextStepA);
+                        playerB.getSteps().add(nextStepB);
+                        return true;
+                    }
+                } finally {
+                    lock.unlock();
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    public void saveToDataBase() {
+        Record record = new Record(
+                null,
+                playerA.getId(),
+                playerA.getSx(),
+                playerA.getSy(),
+                playerB.getId(),
+                playerB.getSx(),
+                playerB.getSy(),
+                playerA.getStepToString(),
+                playerB.getStepToString(),
+                getMapString(),
+                loser,
+                new Date()
+        );
+        WebSocketServer.recordMapper.insert(record);
+    }
+
+    public String getMapString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                stringBuilder.append(g[i][j]);
+            }
+        }
+        return stringBuilder.toString();
     }
 }
