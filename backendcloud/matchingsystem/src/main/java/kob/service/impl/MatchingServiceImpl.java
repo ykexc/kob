@@ -13,9 +13,9 @@ public class MatchingServiceImpl implements MatchingService {
     public static final MatchingPool MATCHING_POOL = new MatchingPool();
 
     @Override
-    public String addPlayer(Integer userId, Integer rating) {
-        System.out.println("add user userId :" + userId + " rating:" + rating);
-        MATCHING_POOL.addPlayer(userId, rating);
+    public String addPlayer(Integer userId, Integer rating, Integer botId) {
+        System.out.println("add user userId :" + userId + " rating:" + rating + "botId:" + botId);
+        MATCHING_POOL.addPlayer(userId, rating, botId);
         return "add success";
     }
 
