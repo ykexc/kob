@@ -1,10 +1,10 @@
-package kob.controller;
+package com.kob.matchingsystem.controller;
 
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import kob.service.MatchingService;
+import com.kob.matchingsystem.service.MatchingService;
 
 import javax.annotation.Resource;
 import java.util.Objects;

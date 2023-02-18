@@ -1,5 +1,6 @@
 package com.kob.backend.service.impl.user.bot;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.kob.backend.mapper.BotMapper;
 import com.kob.backend.pojo.Bot;
 import com.kob.backend.pojo.User;
@@ -52,6 +53,13 @@ public class AddServiceImpl implements AddService {
             map.put(StaticNamePool.ER_MSG, "代码长度不能超过10000");
             return map;
         }
+        QueryWrapper<Bot> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id", user.getId());
+        if (botMapper.selectCount(wrapper) >= 10) {
+            map.put(StaticNamePool.ER_MSG, "每个用户最多只能有10个bot");
+        }
+
+
         Date date = new Date();
         Bot bot = new Bot(null, user.getId(), title, description, content, date, date);
         botMapper.insert(bot);

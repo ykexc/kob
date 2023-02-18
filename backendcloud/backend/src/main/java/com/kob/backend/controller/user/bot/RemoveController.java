@@ -16,7 +16,7 @@ import java.util.Map;
 public class RemoveController {
     private final RemoveService removeService;
 
-    @PostMapping("/user/bot/remove/")
+    @PostMapping("/api/user/bot/remove/")
     public Map<String, String> remove(@RequestParam Map<String, String> data) {
         return removeService.remove(data);
     }

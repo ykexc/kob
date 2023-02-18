@@ -1,4 +1,4 @@
-package kob.service;
+package com.kob.matchingsystem.service;
 
 /**
  * @author mqz

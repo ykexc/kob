@@ -8,7 +8,7 @@
       Lose
     </div>
     <div class="result-board-text"
-         v-else-if="$store.state.pk.loser === 'B' && $store.state.pk.a_id === parseInt($store.state.user.id)">
+         v-else-if="$store.state.pk.loser === 'B' && $store.state.pk.b_id === parseInt($store.state.user.id)">
       Lose
     </div>
     <div class="result-board-text" v-else>

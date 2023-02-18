@@ -1,7 +1,7 @@
-package kob.service.impl;
+package com.kob.matchingsystem.service.impl;
 
-import kob.service.MatchingService;
-import kob.service.impl.util.MatchingPool;
+import com.kob.matchingsystem.service.MatchingService;
+import com.kob.matchingsystem.service.impl.util.MatchingPool;
 import org.springframework.stereotype.Service;
 
 /**

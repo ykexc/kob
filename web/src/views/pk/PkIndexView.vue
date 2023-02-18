@@ -1,7 +1,16 @@
 <template>
   <PlayGround v-if="$store.state.pk.status === 'playing'"/>
   <MatchGround v-if="$store.state.pk.status === 'matching'"/>
-  <ResultBoard v-if="$store.state.pk.loser !== 'none'" />
+  <ResultBoard v-if="$store.state.pk.loser !== 'none'"/>
+
+  <div class="user-color"
+       v-if="$store.state.pk.status === 'playing' && parseInt($store.state.user.id) === parseInt($store.state.pk.a_id)">
+    左下角
+  </div>
+  <div class="user-color"
+       v-if="$store.state.pk.status === 'playing' && parseInt($store.state.user.id) === parseInt($store.state.pk.b_id)">
+    右上角
+  </div>
 
 </template>
 
@@ -12,6 +21,7 @@ import MatchGround from "@/components/MatchGround";
 import {onMounted, onUnmounted} from "vue";
 import {useStore} from "vuex";
 import ResultBoard from "@/components/ResultBoard.vue";
+
 export default {
   components: {
     PlayGround,
@@ -24,9 +34,10 @@ export default {
       opponent_username: "我的对手",
       opponent_photo: "https://cdn.acwing.com/media/article/image/2022/08/09/1_1db2488f17-anonymous.png"
     })
-    const socketUrl = `ws://127.0.0.1:3000/websocket/${store.state.user.token}/`;
+    const socketUrl = `wss://app4453.acapp.acwing.com.cn/websocket/${store.state.user.token}/`;
     let socket = null;
     store.commit("updateLoser", "none");
+    store.commit("updateIsRecord", false);
     onMounted(() => {
       socket = new WebSocket(socketUrl);
 
@@ -91,5 +102,10 @@ export default {
 
 
 <style scoped>
-
+div.user-color {
+  text-align: center;
+  color: white;
+  font-size: 30px;
+  font-weight: 600;
+}
 </style>

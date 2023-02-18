@@ -16,7 +16,7 @@ import java.util.Map;
 public class UpdateController {
     private final UpdateService updateService;
 
-    @PostMapping("/user/bot/update/")
+    @PostMapping("/api/user/bot/update/")
     public Map<String, String> update(@RequestParam Map<String, String> data) {
         return updateService.update(data);
     }

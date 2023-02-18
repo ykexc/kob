@@ -1,4 +1,4 @@
-package kob.service.impl.util;
+package com.kob.matchingsystem.service.impl.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -47,7 +47,6 @@ public class MatchingPool extends Thread{
     }
 
     private void matchPlayers() {
-        System.out.println("players : " + players.toString());
         int persons = players.size();
         boolean[] used = new boolean[persons];
         for (int i = 0; i < persons; i++) {

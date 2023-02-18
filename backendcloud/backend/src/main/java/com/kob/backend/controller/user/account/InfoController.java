@@ -15,7 +15,7 @@ public class InfoController {
     @Resource
     InfoService infoService;
 
-    @GetMapping(value = "/user/account/info/")
+    @GetMapping(value = "/api/user/account/info/")
     public Map<String, String> getInfo() {
         Map<String, String> info = infoService.getInfo();
         info.forEach((key, value) -> System.out.println("key = " + key + "value = " + value));
