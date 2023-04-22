@@ -22,7 +22,7 @@ export default {
 <style>
 
 body {
-  background-image: url("@/assets/images/8.jpg");
+  background-image: url("https://ykexc-1314584214.cos.ap-nanjing.myqcloud.com/yy21.png");
   background-size: cover;
 }
 </style>

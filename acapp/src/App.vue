@@ -1,26 +1,44 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <Navbar/>
+  <router-view></router-view>
 </template>
 
+
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Navbar from './components/NavBar.vue';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap";
+import {useStore} from "vuex";
 
 export default {
-  name: 'App',
   components: {
-    HelloWorld
+    Navbar,
+  },
+  setup() {
+    const store = useStore()
+    const jwt_token = localStorage.getItem("jwt_token");
+    if (jwt_token) {
+      store.commit("updateToken", jwt_token);
+      store.dispatch("getInfo", {
+        success() {
+          store.commit("updatePullingInfo", false);
+        },
+        error() {
+          store.commit("updatePullingInfo", false);
+        }
+      })
+    } else {
+      store.commit("updatePullingInfo", false);
+    }
   }
 }
 </script>
 
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+
+body {
+  background-image: url("@/assets/images/8.jpg");
+  background-size: cover;
 }
 </style>

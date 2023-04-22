@@ -34,7 +34,7 @@ export default {
       opponent_username: "我的对手",
       opponent_photo: "https://cdn.acwing.com/media/article/image/2022/08/09/1_1db2488f17-anonymous.png"
     })
-    const socketUrl = `wss://app4453.acapp.acwing.com.cn/websocket/${store.state.user.token}/`;
+    const socketUrl = `wss://www.ykexc.work/${store.state.user.token}/`;
     let socket = null;
     store.commit("updateLoser", "none");
     store.commit("updateIsRecord", false);

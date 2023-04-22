@@ -1,7 +1,7 @@
 <template>
-  <ContentField>
+  <LoginAndRegisterContentField>
     <div class="row justify-content-md-center">
-      <div class="col-3">
+      <div class="col-12">
         <form @submit.prevent="register">
           <div class="mb-3">
             <label for="username" class="form-label">用户名</label>
@@ -20,17 +20,17 @@
         </form>
       </div>
     </div>
-  </ContentField>
+  </LoginAndRegisterContentField>
 </template>
 
 <script>
-import ContentField from '@/components/ContentField.vue'
+import LoginAndRegisterContentField from '@/components/LoginAndRegisterContentField.vue'
 import { ref } from 'vue'
 import router from "@/router"
 import $ from 'jquery'
 export default {
   components: {
-    ContentField,
+      LoginAndRegisterContentField,
   },
   setup() {
     let username = ref('');
@@ -40,7 +40,7 @@ export default {
 
     const register = () => {
       $.ajax({
-        url: "https://app4453.acapp.acwing.com.cn/api/user/account/register/",
+        url: "https://www.ykexc.work/api/user/account/register/",
         type: 'post',
         data: {
           username: username.value,

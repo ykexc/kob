@@ -67,7 +67,7 @@ public class RegisterServiceImpl extends ServiceImpl<UserMapper, User> implement
         }
         String encodePassword = passwordEncoder.encode(password);
         String photo = "https://cdn.acwing.com/media/user/profile/photo/196275_lg_23593e701b.jpeg";
-        User newUser = new User(null, username, encodePassword, 1500, photo);
+        User newUser = new User(null, username, encodePassword, 1500, photo, null);
         save(newUser);
         map.put("error_message", "success");
         return map;
