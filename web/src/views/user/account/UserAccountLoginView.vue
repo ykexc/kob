@@ -81,7 +81,7 @@ export default {
 
         const qq_login = () => {
             $.ajax({
-                url: "https://www.ykexc.work/api/user/account/qq/apply_code/",
+                url: "https://ykexc.work/api/user/account/qq/apply_code/",
                 type: "GET",
                 success: resp => {
                     if (resp.result === "success") {

@@ -63,7 +63,7 @@ export default {
     };
     const refresh_bots = () => {
       $.ajax({
-        url: "https://www.ykexc.work/api/user/bot/getlist/",
+        url: "https://ykexc.work/api/user/bot/getlist/",
         type: "get",
         headers: {
           Authorization: "Bearer " + store.state.user.token

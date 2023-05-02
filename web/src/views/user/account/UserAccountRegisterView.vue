@@ -40,7 +40,7 @@ export default {
 
     const register = () => {
       $.ajax({
-        url: "https://www.ykexc.work/api/user/account/register/",
+        url: "https://ykexc.work/api/user/account/register/",
         type: 'post',
         data: {
           username: username.value,

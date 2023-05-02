@@ -79,7 +79,7 @@ export default {
     const pull_page = page => {
       current_page = page
       $.ajax({
-        url: "https://www.ykexc.work/api/ranklist/getlist/",
+        url: "https://ykexc.work/api/ranklist/getlist/",
         type: "GET",
         data: {
           page: page

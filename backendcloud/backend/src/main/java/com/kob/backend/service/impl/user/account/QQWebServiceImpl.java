@@ -145,7 +145,7 @@ public class QQWebServiceImpl implements QQWebService {
             if (i == 99) return jsonObject;
             username += RANDOM.nextInt(10);
         }
-        User newUser = new User(null, username, null, 0, page, openid);
+        User newUser = new User(null, username, null, 1500, page, openid);
         int insert = userMapper.insert(newUser);
         if (insert != 1) return jsonObject;
         String jwt = JwtUtil.createJWT(newUser.getId().toString());
