@@ -5,7 +5,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.kob.backend.mapper.UserMapper;
+import com.kob.backend.mapper.dtomapper.RankListVOMapper;
 import com.kob.backend.pojo.User;
+import com.kob.backend.pojo.dto.RankListVO;
 import com.kob.backend.service.ranklist.GetRankListService;
 import org.springframework.stereotype.Service;
 
@@ -21,16 +23,18 @@ public class GetRankLIstServiceImpl implements GetRankListService {
     @Resource
     private UserMapper userMapper;
 
+    @Resource
+    private RankListVOMapper baseMapper;
+
     @Override
     public JSONObject getRankList(Integer pageId) {
-        IPage<User> iPage = new Page<>(pageId, 3);
-        QueryWrapper<User> wrapper = new QueryWrapper<>();
-        wrapper.orderByDesc("rating");
-        List<User> users = userMapper.selectPage(iPage, wrapper).getRecords();
-        users.forEach(e -> e.setPassword(""));
+        Page<RankListVO> page = new Page<>(pageId, 3);
+        IPage<RankListVO> rankListDtoIPage = baseMapper.selectRankListPage(page);
+        List<RankListVO> users = rankListDtoIPage.getRecords();
         JSONObject resp = new JSONObject();
         resp.put("users", users);
         resp.put("users_count", userMapper.selectCount(null));
+        System.out.println(users);
         return resp;
     }
 }

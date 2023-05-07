@@ -34,12 +34,17 @@ public class AddServiceImpl implements AddService {
         String title = data.get("title");
         String description = data.get(("description"));
         String content = data.get("content");
+        String type = data.get("type");
         Map<String, String> map = new HashMap<>();
         if (!StringUtils.hasText(title) || "".equals(title)) {
             map.put(StaticNamePool.ER_MSG, "标题不能为空");
         }
         if (title.length() > 100) {
             map.put("error_message", "标题长度不能超过100");
+            return map;
+        }
+        if (!StringUtils.hasText(type)) {
+            map.put(StaticNamePool.ER_MSG, "语言不能为空");
             return map;
         }
         if (!StringUtils.hasText(description)) {
@@ -61,7 +66,7 @@ public class AddServiceImpl implements AddService {
 
 
         Date date = new Date();
-        Bot bot = new Bot(null, user.getId(), title, description, content, date, date);
+        Bot bot = new Bot(null, user.getId(), title, description, content, type, 1000, date, date);
         botMapper.insert(bot);
         map.put(StaticNamePool.ER_MSG, "success");
         return map;

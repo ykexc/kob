@@ -43,7 +43,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/api/user/account/token/",
                         "/api/user/account/register/",
                         "/api/user/account/qq/apply_code/",
-                        "/api/user/account/qq/receive_code"
+                        "/api/user/account/qq/receive_code",
+                        "/hello"
                 ).permitAll()
                 .antMatchers("/pk/start/game/", "/pk/receive/bot/move/").hasIpAddress("127.0.0.1")
                 .antMatchers(HttpMethod.OPTIONS).permitAll()
