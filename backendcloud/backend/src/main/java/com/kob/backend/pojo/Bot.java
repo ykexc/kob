@@ -31,7 +31,7 @@ public class Bot {
 
     private String type;
 
-    private Integer botRating;
+    private Integer rating;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
     private Date createTime;

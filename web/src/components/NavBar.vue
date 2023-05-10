@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" >
   <div class="container">
     <router-link class="navbar-brand" :to="{name: 'home'}">King Of Bots</router-link>
     <div class="collapse navbar-collapse" id="navbarText">
@@ -76,5 +76,4 @@ export default {
 
 
 <style scoped>
-
 </style>

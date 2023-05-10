@@ -1,7 +1,7 @@
 <template>
-  <ContentField>
+  <ContentField h="86vh">
     <div class="card-body">
-      <table class="table table-hover" style="text-align: center">
+      <table class="table table-hover" style="text-align: center;">
         <thead>
         <tr>
           <th>A</th>
@@ -34,7 +34,7 @@
         </tbody>
       </table>
       <nav aria-label="...">
-        <ul class="pagination" style="float: right">
+        <ul class="pagination" style="float: right;">
           <li class="page-item">
             <a @click="click_page(-2)" class="page-link" href="#">前一页</a>
           </li>
