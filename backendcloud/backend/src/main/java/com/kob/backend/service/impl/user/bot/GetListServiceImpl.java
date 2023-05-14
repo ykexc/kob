@@ -28,7 +28,6 @@ public class GetListServiceImpl implements GetListService {
         Integer id = principal.getUser().getId();
         QueryWrapper<Bot> wrapper = new QueryWrapper<>();
         wrapper.eq("user_id", id);
-        List<Bot> bots = botMapper.selectList(wrapper);
-        return bots;
+        return botMapper.selectList(wrapper);
     }
 }

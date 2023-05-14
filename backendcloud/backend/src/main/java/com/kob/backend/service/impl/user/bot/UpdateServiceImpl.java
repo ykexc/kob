@@ -35,7 +35,7 @@ public class UpdateServiceImpl implements UpdateService {
         String title = data.get("title");
         String description = data.get("description");
         String content = data.get("content");
-
+        String type = data.get("type");
         Map<String, String> map = new HashMap<>();
 
         if (title == null || title.length() == 0) {
@@ -84,7 +84,7 @@ public class UpdateServiceImpl implements UpdateService {
                 title,
                 description,
                 content,
-                bot.getType(),
+                type,
                 bot.getRating(),
                 bot.getCreateTime(),
                 new Date()
